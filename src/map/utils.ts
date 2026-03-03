@@ -1,6 +1,8 @@
 import { Value, NumberValue, StringValue, ListValue } from 'obsidian';
 import { OpenLocationCode } from 'open-location-code';
 
+const olc = new OpenLocationCode();
+
 /**
  * Converts a Value to coordinate tuple [lat, lng]
  */
@@ -22,8 +24,8 @@ export function coordinateFromValue(value: Value | null): [number, number] | nul
 		const str = value.toString().trim();
 
 		// Check for full Plus Code (e.g., "9C3XGVHC+XW")
-		if (OpenLocationCode.isFull(str)) {
-			const area = OpenLocationCode.decode(str);
+		if (olc.isFull(str)) {
+			const area = olc.decode(str);
 			lat = area.latitudeCenter;
 			lng = area.longitudeCenter;
 		}
