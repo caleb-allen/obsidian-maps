@@ -145,6 +145,58 @@ coordinates:
         f.write(content)
 
 
+PLUS_CODE_PLACES = [
+    {"name": "British Library",       "plus_code": "9C3XGVJC+2W", "type": "[[Library]]"},
+    {"name": "Eiffel Tower",          "plus_code": "8FW4V75V+9R", "type": "[[Monument]]"},
+    {"name": "Statue of Liberty",     "plus_code": "87G7MXQ4+M6", "type": "[[Monument]]"},
+    {"name": "Taj Mahal",             "plus_code": "7JVW52GR+2R", "type": "[[Monument]]"},
+    {"name": "Colosseum",             "plus_code": "8FHJVFRR+3V", "type": "[[Monument]]"},
+    {"name": "Great Wall of China",   "plus_code": "8PGRCHJC+Q5", "type": "[[Monument]]"},
+    {"name": "Great Pyramid of Giza", "plus_code": "7GXHX4HM+MM", "type": "[[Monument]]"},
+    {"name": "Sydney Opera House",    "plus_code": "4RRH46V8+74", "type": "[[Theater]]"},
+    {"name": "Machu Picchu",          "plus_code": "57R9RFP4+Q2", "type": "[[Monument]]"},
+    {"name": "Burj Khalifa",          "plus_code": "7HQQ57WF+VQ", "type": "[[Building]]"},
+    {"name": "Christ the Redeemer",   "plus_code": "589R2QXQ+6R", "type": "[[Monument]]"},
+    {"name": "Big Ben",               "plus_code": "9C3XGV2G+75", "type": "[[Monument]]"},
+    {"name": "Golden Gate Bridge",    "plus_code": "849VRG9C+XM", "type": "[[Monument]]"},
+    {"name": "Acropolis of Athens",   "plus_code": "8G95XPCG+J7", "type": "[[Monument]]"},
+    {"name": "Petra",                 "plus_code": "8G2Q8CHV+CQ", "type": "[[Monument]]"},
+    {"name": "Angkor Wat",            "plus_code": "7P55CV78+2R", "type": "[[Temple]]"},
+    {"name": "Sagrada Familia",       "plus_code": "8FH4C53F+CQ", "type": "[[Cathedral]]"},
+    {"name": "Mount Everest",         "plus_code": "7MV8XWQG+62", "type": "[[Mountain]]"},
+    {"name": "Hollywood Sign",        "plus_code": "85634MMH+JC", "type": "[[Monument]]"},
+    {"name": "Forbidden City",        "plus_code": "8PFRW98W+GV", "type": "[[Palace]]"},
+    {"name": "Stonehenge",            "plus_code": "9C3W55HF+HG", "type": "[[Monument]]"},
+]
+
+
+def create_plus_code_file(directory, place):
+    """Create a markdown file using a Plus Code for location."""
+    content = f"""---
+category: "[[Places]]"
+type: "{place['type']}"
+location: "{place['plus_code']}"
+---
+"""
+    filepath = directory / f"{place['name']}.md"
+    with open(filepath, 'w', encoding='utf-8') as f:
+        f.write(content)
+
+
+def generate_plus_code_files(output_dir="generated_pluscode_places"):
+    """Generate test markdown files using Plus Codes for location."""
+    script_dir = Path(__file__).parent
+    output_path = script_dir / output_dir
+    output_path.mkdir(exist_ok=True)
+
+    print(f"Generating {len(PLUS_CODE_PLACES)} Plus Code test file(s) in {output_path}...")
+
+    for place in PLUS_CODE_PLACES:
+        create_plus_code_file(output_path, place)
+
+    print(f"✓ Successfully generated {len(PLUS_CODE_PLACES)} Plus Code file(s) in {output_path}/")
+
+
 def generate_test_files(count=100, output_dir="generated_places"):
     """Generate test markdown files with coordinates."""
     # Create output directory
@@ -203,6 +255,7 @@ def main():
             sys.exit(1)
     
     generate_test_files(count)
+    generate_plus_code_files()
 
 
 if __name__ == "__main__":
